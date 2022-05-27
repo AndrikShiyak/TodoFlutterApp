@@ -1,8 +1,8 @@
 class Strings {
   // App
-  static final appTitle = 'App Name';
+  static final appTitle = 'ToDo App';
 
   // HomeScreen
   static final homeScreenTitle = 'Home Screen';
-  static final homeScreenCenterText = 'Welcome to Flutterly!';
+  static final homeScreenCenterText = 'Welcome to ToDo App!';
 }

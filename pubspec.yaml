@@ -1,5 +1,5 @@
-name: bloc_architecture_app
-description: A Flutetr Bloc Architecture project.
+name: todo_app
+description: ToDo App.
 
 publish_to: 'none'
 
@@ -9,12 +9,13 @@ environment:
   sdk: '>=2.13.0 <3.0.0'
 
 dependencies:
+  bloc: ^8.0.3
+  cupertino_icons: ^1.0.0
   flutter:
     sdk: flutter
-  bloc: ^7.0.0
-  cupertino_icons: ^1.0.0
-  flutter_bloc: ^7.0.0
-  hydrated_bloc: ^7.0.0
+  flutter_bloc: ^8.0.1
+  hydrated_bloc: ^8.1.0
+  path_provider: ^2.0.10
 
 dev_dependencies:
   flutter_test:
