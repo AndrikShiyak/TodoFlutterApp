@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TodoCard extends StatelessWidget {
   TodoCard({required this.title});
@@ -8,17 +9,17 @@ class TodoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 100.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(5.r),
         boxShadow: [
           BoxShadow(
-            offset: Offset(1, 1),
+            offset: Offset(1.r, 1.r),
             color: Colors.grey.shade300,
-            blurRadius: 4,
-            spreadRadius: 2,
+            blurRadius: 4.r,
+            spreadRadius: 2.r,
           ),
         ],
       ),
@@ -29,9 +30,9 @@ class TodoCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 140,
+                width: 140.w,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(5.r),
                   color: Colors.green.withOpacity(0.3),
                 ),
               ),

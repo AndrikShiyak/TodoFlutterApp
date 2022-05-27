@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/presentation/screens/home_screen/widgets/todo_card.dart';
 import 'package:todo_app/presentation/shared/main_page_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -26,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return MainPageLayout(
       title: 'Home Screen',
       body: ListView.separated(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.w),
         itemBuilder: (context, index) => TodoCard(title: titlesList[index]),
-        separatorBuilder: (context, index) => SizedBox(height: 20),
+        separatorBuilder: (context, index) => SizedBox(height: 20.h),
         itemCount: titlesList.length,
       ),
     );
