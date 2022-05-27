@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/screens/home_screen/widgets/todo_card.dart';
+import 'package:todo_app/presentation/shared/main_page_layout.dart';
 
-import '../../../core/constants/strings.dart';
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late final List<String> titlesList;
+
+  @override
+  void initState() {
+    titlesList = List.generate(4, (index) => 'Card ${index + 1}');
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              Strings.homeScreenCenterText,
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+    return MainPageLayout(
+      title: 'Home Screen',
+      body: ListView.separated(
+        padding: EdgeInsets.all(20),
+        itemBuilder: (context, index) => TodoCard(title: titlesList[index]),
+        separatorBuilder: (context, index) => SizedBox(height: 20),
+        itemCount: titlesList.length,
       ),
     );
   }
