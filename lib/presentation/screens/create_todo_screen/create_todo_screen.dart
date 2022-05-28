@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/models/todo_model.dart';
+import 'package:todo_app/logic/cubit/todos_cubit.dart';
+import 'package:todo_app/presentation/screens/create_todo_screen/widgets/icon_button_w.dart';
 import 'package:todo_app/presentation/screens/create_todo_screen/widgets/textfield_with_buttons.dart';
 import 'package:todo_app/presentation/shared/main_page_layout.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateTodoScreen extends StatefulWidget {
   const CreateTodoScreen({
@@ -18,6 +22,7 @@ class CreateTodoScreen extends StatefulWidget {
 
 class _CreateTodoScreenState extends State<CreateTodoScreen> {
   final List<String> _subTodos = [];
+  final Map<String, dynamic> _newTodo = {};
 
   void _addSubTodoController() {
     setState(() {
@@ -25,9 +30,18 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
     });
   }
 
-  void _delete(int index) {
+  void _delete(String id) {
     setState(() {
+      int index = _subTodos.indexOf(id);
       _subTodos.removeAt(index);
+
+      final subTodosList = _newTodo['subTodos'] as List<dynamic>;
+
+      index =
+          subTodosList.indexWhere((subTodo) => (subTodo['id'] as String) == id);
+      if (index < 0) return;
+
+      subTodosList.removeAt(index);
     });
   }
 
@@ -41,6 +55,16 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
   @override
   Widget build(BuildContext context) {
     return MainPageLayout(
+      actions: [
+        IconButtonW(
+          icon: Icons.check,
+          color: Colors.white,
+          onTap: () {
+            context.read<TodosCubit>().saveTodo(TodoModel.fromMap(_newTodo));
+            Navigator.of(context).pop();
+          },
+        )
+      ],
       padding: EdgeInsets.all(20.w),
       title: widget.title,
       body: SingleChildScrollView(
@@ -51,7 +75,12 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
               style: Theme.of(context).textTheme.headline5,
             ),
             TextFieldWithButtons(
-              save: _addSubTodoController,
+              onSave: (value) {
+                _newTodo['title'] = value;
+                _newTodo['subTodos'] = [];
+
+                _addSubTodoController();
+              },
               allowCreateSubTodo: _subTodos.isEmpty,
             ),
             SizedBox(height: 50.h),
@@ -61,8 +90,14 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
             ),
             for (var subTodo in _subTodos.asMap().entries)
               TextFieldWithButtons(
-                save: _addSubTodoController,
-                delete: () => _delete(subTodo.key),
+                key: Key(subTodo.value),
+                onSave: (value) {
+                  (_newTodo['subTodos'] as List).add(
+                      {'id': subTodo.value, 'title': value, 'isDone': false});
+
+                  _addSubTodoController();
+                },
+                delete: () => _delete(subTodo.value),
                 allowCreateSubTodo: subTodo.key == _subTodos.length - 1,
               ),
           ],

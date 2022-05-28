@@ -8,4 +8,13 @@ class TodoModel {
     required this.title,
     this.subTodos = const [],
   });
+
+  factory TodoModel.fromMap(Map<String, dynamic> map) {
+    return TodoModel(
+      title: map['title'] as String,
+      subTodos: (map['subTodos'] as List<dynamic>)
+          .map((dynamic e) => SubTodoModel.fromMap(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }

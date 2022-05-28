@@ -4,13 +4,13 @@ import 'package:todo_app/presentation/screens/create_todo_screen/widgets/icon_bu
 class TextFieldWithButtons extends StatefulWidget {
   const TextFieldWithButtons({
     Key? key,
-    required this.save,
+    required this.onSave,
     required this.allowCreateSubTodo,
     this.onChange,
     this.delete,
   }) : super(key: key);
 
-  final VoidCallback save;
+  final void Function(String value) onSave;
   final VoidCallback? delete;
   final void Function(String value)? onChange;
   final bool allowCreateSubTodo;
@@ -82,7 +82,7 @@ class _TextFieldWithButtonsState extends State<TextFieldWithButtons> {
                   });
 
                   if (!widget.allowCreateSubTodo) return;
-                  widget.save();
+                  widget.onSave(_controller.text.trim());
                 }
               : null,
         ),

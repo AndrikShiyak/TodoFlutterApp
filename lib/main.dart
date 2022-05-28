@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:todo_app/logic/cubit/todos_cubit.dart';
 
 import 'core/constants/strings.dart';
 import 'core/themes/app_theme.dart';
@@ -28,13 +30,16 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 667),
-      builder: (context, widget) => MaterialApp(
-        title: Strings.appTitle,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppRouter.home,
-        onGenerateRoute: AppRouter.onGenerateRoute,
+      builder: (context, widget) => BlocProvider<TodosCubit>(
+        create: (context) => TodosCubit(),
+        child: MaterialApp(
+          title: Strings.appTitle,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppRouter.home,
+          onGenerateRoute: AppRouter.onGenerateRoute,
+        ),
       ),
     );
   }
