@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/router/app_router.dart';
 import 'package:todo_app/presentation/screens/home_screen/widgets/todo_card.dart';
 import 'package:todo_app/presentation/shared/main_page_layout.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    titlesList = List.generate(4, (index) => 'Card ${index + 1}');
+    titlesList = List.generate(7, (index) => 'Card ${index + 1}');
 
     super.initState();
   }
@@ -31,6 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) => TodoCard(title: titlesList[index]),
         separatorBuilder: (context, index) => SizedBox(height: 20.h),
         itemCount: titlesList.length,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).pushNamed(AppRouter.createTodo),
+        child: Icon(Icons.add),
       ),
     );
   }
