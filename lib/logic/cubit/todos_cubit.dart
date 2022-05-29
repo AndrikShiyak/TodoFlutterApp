@@ -7,7 +7,9 @@ class TodosCubit extends Cubit<TodosState> {
   TodosCubit() : super(TodosState(todosList: []));
 
   void saveTodo(TodoModel newTodo) =>
-      emit(TodosState(todosList: [...state.todosList]..add(newTodo)));
+      emit(state.copyWith(todosList: [...state.todosList]..add(newTodo)));
+
+  void selectTodo(TodoModel todo) => emit(state.copyWith(selectedTodo: todo));
 
   TodosState? fromJson(Map<String, dynamic> json) {
     return TodosState.fromMap(json);

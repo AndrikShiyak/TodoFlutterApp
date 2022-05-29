@@ -17,4 +17,7 @@ class TodoModel {
           .toList(),
     );
   }
+
+  @override
+  String toString() => 'TodoModel(title: $title, subTodos: $subTodos)';
 }

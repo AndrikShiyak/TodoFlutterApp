@@ -34,8 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Home Screen',
       body: ListView.separated(
         padding: EdgeInsets.all(20.w),
-        itemBuilder: (context, index) =>
-            TodoCard(title: todosList[index].title),
+        itemBuilder: (context, index) => TodoCard(
+          title: todosList[index].title,
+          onTap: () {
+            context.read<TodosCubit>().selectTodo(todosList[index]);
+            Navigator.of(context).pushNamed(AppRouter.todo);
+          },
+        ),
         separatorBuilder: (context, index) => SizedBox(height: 20.h),
         itemCount: todosList.length,
       ),
