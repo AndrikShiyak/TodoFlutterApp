@@ -1,16 +1,19 @@
 import 'package:todo_app/data/models/sub_todo_model.dart';
+import 'package:todo_app/data/models/unique_entity.dart';
 
-class TodoModel {
+class TodoModel extends UniqueEntity {
   final String title;
   final List<SubTodoModel> subTodos;
 
   TodoModel({
+    required String id,
     required this.title,
     this.subTodos = const [],
-  });
+  }) : super(id);
 
   factory TodoModel.fromMap(Map<String, dynamic> map) {
     return TodoModel(
+      id: map['id'] as String,
       title: map['title'] as String,
       subTodos: (map['subTodos'] as List<dynamic>)
           .map((dynamic e) => SubTodoModel.fromMap(e as Map<String, dynamic>))
@@ -20,4 +23,15 @@ class TodoModel {
 
   @override
   String toString() => 'TodoModel(title: $title, subTodos: $subTodos)';
+
+  TodoModel copyWith({
+    String? title,
+    List<SubTodoModel>? subTodos,
+  }) {
+    return TodoModel(
+      id: super.id,
+      title: title ?? this.title,
+      subTodos: subTodos ?? this.subTodos,
+    );
+  }
 }

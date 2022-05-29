@@ -13,6 +13,7 @@ void main() {
           home: Scaffold(
             body: TodoCard(
               title: testTitle,
+              onTap: () {},
             ),
           ),
         ),

@@ -11,6 +11,9 @@ class TodosCubit extends Cubit<TodosState> {
 
   void selectTodo(TodoModel todo) => emit(state.copyWith(selectedTodo: todo));
 
+  void updateTodos(List<TodoModel> todosList) =>
+      emit(state.copyWith(todosList: todosList));
+
   TodosState? fromJson(Map<String, dynamic> json) {
     return TodosState.fromMap(json);
   }

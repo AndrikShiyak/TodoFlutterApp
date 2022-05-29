@@ -60,6 +60,7 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
           icon: Icons.check,
           color: Colors.white,
           onTap: () {
+            _newTodo['id'] = _createUniqueKey();
             context.read<TodosCubit>().saveTodo(TodoModel.fromMap(_newTodo));
             Navigator.of(context).pop();
           },
