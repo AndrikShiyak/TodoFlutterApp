@@ -6,7 +6,7 @@ part 'todos_state.dart';
 
 class TodosCubit extends Cubit<TodosState> with HydratedMixin {
   TodosCubit() : super(TodosState(todosList: [])) {
-    hydrate();
+    // hydrate();
   }
 
   void saveTodo(TodoModel newTodo) =>

@@ -36,4 +36,7 @@ class SubTodoModel extends UniqueEntity {
       isDone: isDone ?? this.isDone,
     );
   }
+
+  @override
+  String toString() => 'SubTodoModel(title: $title, isDone: $isDone)';
 }

@@ -31,7 +31,8 @@ class TodosState {
       todosList: (map['todosList'] as List<dynamic>)
           .map((e) => TodoModel.fromMap(e as Map<String, dynamic>))
           .toList(),
-      selectedTodo: map['selectedTodo'],
+      selectedTodo:
+          TodoModel.fromMap(map['selectedTodo'] as Map<String, dynamic>),
     );
   }
 
