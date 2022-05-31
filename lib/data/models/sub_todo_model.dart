@@ -10,6 +10,14 @@ class SubTodoModel extends UniqueEntity {
     this.isDone = false,
   }) : super(id);
 
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': super.id,
+      'title': title,
+      'isDone': isDone,
+    };
+  }
+
   factory SubTodoModel.fromMap(Map<String, dynamic> map) {
     return SubTodoModel(
       id: map['id'] as String,

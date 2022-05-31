@@ -11,6 +11,14 @@ class TodoModel extends UniqueEntity {
     this.subTodos = const [],
   }) : super(id);
 
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': super.id,
+      'title': title,
+      'subTodos': subTodos.map((e) => e.toMap()).toList(),
+    };
+  }
+
   factory TodoModel.fromMap(Map<String, dynamic> map) {
     return TodoModel(
       id: map['id'] as String,
