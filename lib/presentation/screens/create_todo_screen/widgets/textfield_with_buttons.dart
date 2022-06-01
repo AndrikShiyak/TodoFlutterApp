@@ -4,23 +4,18 @@ import 'package:todo_app/presentation/screens/create_todo_screen/widgets/icon_bu
 class TextFieldWithButtons extends StatefulWidget {
   const TextFieldWithButtons({
     Key? key,
-    required this.onSave,
-    required this.allowCreateSubTodo,
     this.onChange,
     this.delete,
   }) : super(key: key);
 
-  final void Function(String value) onSave;
   final VoidCallback? delete;
   final void Function(String value)? onChange;
-  final bool allowCreateSubTodo;
 
   @override
   State<TextFieldWithButtons> createState() => _TextFieldWithButtonsState();
 }
 
 class _TextFieldWithButtonsState extends State<TextFieldWithButtons> {
-  bool _canSave = false;
   final _controller = TextEditingController();
 
   @override
@@ -44,14 +39,10 @@ class _TextFieldWithButtonsState extends State<TextFieldWithButtons> {
   }
 
   void _controllerListener() {
-    if (widget.onChange != null) {
+    if (widget.onChange != null && _controller.text.trim().isNotEmpty) {
       widget.onChange!(_controller.text.trim());
     }
-    if (_controller.text.trim().isNotEmpty) {
-      _canSave = true;
-    } else {
-      _canSave = false;
-    }
+
     setState(() {});
   }
 
@@ -66,25 +57,6 @@ class _TextFieldWithButtonsState extends State<TextFieldWithButtons> {
               label: Text('title'),
             ),
           ),
-        ),
-        IconButtonW(
-          icon: Icons.save,
-          color: _canSave
-              ? widget.allowCreateSubTodo
-                  ? Colors.green
-                  : Theme.of(context).colorScheme.secondary
-              : Colors.grey,
-          onTap: _canSave
-              ? () {
-                  FocusScope.of(context).unfocus();
-                  setState(() {
-                    _canSave = false;
-                  });
-
-                  if (!widget.allowCreateSubTodo) return;
-                  widget.onSave(_controller.text.trim());
-                }
-              : null,
         ),
         if (widget.delete != null)
           IconButtonW(

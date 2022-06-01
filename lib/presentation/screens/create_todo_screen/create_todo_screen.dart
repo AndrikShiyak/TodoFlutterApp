@@ -22,9 +22,9 @@ class CreateTodoScreen extends StatefulWidget {
 
 class _CreateTodoScreenState extends State<CreateTodoScreen> {
   final List<String> _subTodos = [];
-  final Map<String, dynamic> _newTodo = {};
+  final Map<String, dynamic> _newTodo = {'subTodos': []};
 
-  void _addSubTodoController() {
+  void _addSubTodoField() {
     setState(() {
       _subTodos.add(_createUniqueKey());
     });
@@ -52,6 +52,29 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
     return '${math.pow(randomNumber, 3)}';
   }
 
+  void _updateSubTodos({required String id, required String value}) {
+    final index = (_newTodo['subTodos'] as List<dynamic>)
+        .indexWhere((element) => (element['id'] as String) == id);
+    if (index < 0) {
+      (_newTodo['subTodos'] as List<dynamic>).add({
+        'id': id,
+        'title': value,
+      });
+    } else {
+      ((_newTodo['subTodos'] as List<dynamic>)[index]
+          as Map<String, String>)['title'] = value;
+    }
+  }
+
+  void _saveTodo() {
+    if (_newTodo['title'] == null) return;
+
+    _newTodo['id'] = _createUniqueKey();
+
+    context.read<TodosCubit>().saveTodo(TodoModel.fromMap(_newTodo));
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainPageLayout(
@@ -59,12 +82,8 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
         IconButtonW(
           icon: Icons.check,
           color: Colors.white,
-          onTap: () {
-            _newTodo['id'] = _createUniqueKey();
-            context.read<TodosCubit>().saveTodo(TodoModel.fromMap(_newTodo));
-            Navigator.of(context).pop();
-          },
-        )
+          onTap: () => _saveTodo(),
+        ),
       ],
       padding: EdgeInsets.all(20.w),
       title: widget.title,
@@ -76,13 +95,10 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
               style: Theme.of(context).textTheme.headline5,
             ),
             TextFieldWithButtons(
-              onSave: (value) {
-                _newTodo['title'] = value;
-                _newTodo['subTodos'] = [];
-
-                _addSubTodoController();
+              onChange: (value) {
+                _newTodo.update('title', (oldValue) => value,
+                    ifAbsent: () => value);
               },
-              allowCreateSubTodo: _subTodos.isEmpty,
             ),
             SizedBox(height: 50.h),
             Text(
@@ -92,17 +108,17 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
             for (var subTodo in _subTodos.asMap().entries)
               TextFieldWithButtons(
                 key: Key(subTodo.value),
-                onSave: (value) {
-                  (_newTodo['subTodos'] as List).add(
-                      {'id': subTodo.value, 'title': value, 'isDone': false});
-
-                  _addSubTodoController();
+                onChange: (value) {
+                  _updateSubTodos(id: subTodo.value, value: value);
                 },
                 delete: () => _delete(subTodo.value),
-                allowCreateSubTodo: subTodo.key == _subTodos.length - 1,
               ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _addSubTodoField(),
+        child: Icon(Icons.add),
       ),
     );
   }

@@ -22,7 +22,7 @@ class SubTodoModel extends UniqueEntity {
     return SubTodoModel(
       id: map['id'] as String,
       title: map['title'] as String,
-      isDone: map['isDone'] as bool,
+      isDone: (map['isDone'] as bool?) ?? false,
     );
   }
 
