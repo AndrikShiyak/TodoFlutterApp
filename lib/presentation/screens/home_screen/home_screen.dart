@@ -23,62 +23,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return MainPageLayout(
       title: 'Home Screen',
-      body: ListView.separated(
-        padding: EdgeInsets.all(20.w),
-        itemBuilder: (context, index) => Dismissible(
-          direction: DismissDirection.endToStart,
-          background: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(5.w),
+      body: BlocBuilder<TodosCubit, TodosState>(
+        builder: (context, state) {
+          return ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+            itemBuilder: (context, index) => TodoCard(
+              // TODO remove ?? null
+              title: todosList[index].title ?? 'null',
+              onTap: () {
+                context.read<TodosCubit>().selectTodo(todosList[index]);
+                Navigator.of(context).pushNamed(AppRouter.todo);
+              },
+              onDismissed: () =>
+                  context.read<TodosCubit>().deleteTodo(todosList[index].id),
             ),
-            alignment: Alignment.centerRight,
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-          ),
-          onDismissed: (direction) {
-            // TODO implement delete
-
-            if (direction.name == 'endToStart') {
-              print('delete');
-            } else {
-              print('else');
-            }
-          },
-          confirmDismiss: (direction) async {
-            if (direction.name == 'endToStart') {
-              return showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('title'),
-                  content: Text('content'),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: Text('No')),
-                    TextButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: Text('Yes')),
-                  ],
-                ),
-              );
-            }
-          },
-          key: UniqueKey(),
-          child: TodoCard(
-            // TODO remove ?? null
-            title: todosList[index].title ?? 'null',
-            onTap: () {
-              context.read<TodosCubit>().selectTodo(todosList[index]);
-              Navigator.of(context).pushNamed(AppRouter.todo);
-            },
-          ),
-        ),
-        separatorBuilder: (context, index) => SizedBox(height: 20.h),
-        itemCount: todosList.length,
+            separatorBuilder: (context, index) => SizedBox(height: 20.h),
+            itemCount: todosList.length,
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).pushNamed(AppRouter.createTodo),

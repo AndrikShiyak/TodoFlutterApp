@@ -17,6 +17,15 @@ class TodosCubit extends Cubit<TodosState> with HydratedMixin {
   void updateTodos(List<TodoModel> todosList) =>
       emit(state.copyWith(todosList: todosList));
 
+  void deleteTodo(String id) {
+    final List<TodoModel> todosList = state.todosList;
+    final int index = todosList.indexWhere((element) => element.id == id);
+    if (index < 0) return;
+
+    todosList.removeAt(index);
+    emit(state.copyWith(todosList: todosList));
+  }
+
   @override
   TodosState? fromJson(Map<String, dynamic> json) {
     return TodosState.fromMap(json);
