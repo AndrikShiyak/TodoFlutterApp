@@ -11,6 +11,13 @@ class TodoModel extends UniqueEntity {
     this.subTodos = const [],
   }) : super(id);
 
+  double get completePercentage {
+    return this.subTodos.isNotEmpty
+        ? this.subTodos.where((element) => element.isDone).length /
+            this.subTodos.length
+        : 0;
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': super.id,

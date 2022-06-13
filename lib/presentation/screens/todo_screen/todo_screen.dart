@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/data/models/todo_model.dart';
 import 'package:todo_app/logic/cubit/todos_cubit.dart';
 import 'package:todo_app/presentation/screens/todo_screen/widgets/checkbox_with_title.dart';
+import 'package:todo_app/presentation/shared/appbar_progress_indicator.dart';
 import 'package:todo_app/presentation/shared/main_page_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,6 +67,7 @@ class TodoScreen extends StatelessWidget {
       builder: (context, state) {
         return MainPageLayout(
           title: state.selectedTodo?.title ?? 'NA',
+          appBarsBottom: AppBarProgressIndicator(),
           body: ListView.builder(
             padding: EdgeInsets.all(20.w),
             itemBuilder: (context, index) => CheckboxWithTitle(

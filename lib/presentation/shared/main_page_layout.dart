@@ -8,9 +8,11 @@ class MainPageLayout extends StatelessWidget {
     this.floatingActionButton,
     this.padding,
     this.actions,
+    this.appBarsBottom,
   }) : super(key: key);
 
   final String title;
+  final PreferredSizeWidget? appBarsBottom;
   final Widget body;
   final Widget? floatingActionButton;
   final EdgeInsets? padding;
@@ -22,6 +24,7 @@ class MainPageLayout extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         actions: actions,
+        bottom: appBarsBottom,
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,

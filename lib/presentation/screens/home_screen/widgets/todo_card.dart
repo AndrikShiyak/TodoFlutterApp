@@ -13,19 +13,13 @@ class TodoCard extends StatelessWidget {
   final VoidCallback onDismissed;
   final TodoModel todo;
 
-  late final double percentageOfDoneSubtodos =
-      todo.subTodos.where((element) => element.isDone).isNotEmpty
-          ? (todo.subTodos.where((element) => element.isDone).length /
-              todo.subTodos.length)
-          : 0;
-
   @override
   Widget build(BuildContext context) {
     final double greenContainerWidth =
-        (MediaQuery.of(context).size.width - 40.w) * percentageOfDoneSubtodos;
+        (MediaQuery.of(context).size.width - 40.w) * todo.completePercentage;
 
     final double greenContainerColorOpacity =
-        0.2 + 0.8 * percentageOfDoneSubtodos;
+        0.2 + 0.8 * todo.completePercentage;
 
     return GestureDetector(
       onTap: onTap,
