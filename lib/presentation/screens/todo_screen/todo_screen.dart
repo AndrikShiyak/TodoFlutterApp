@@ -25,8 +25,17 @@ class TodoScreen extends StatelessWidget {
       updatedTodo: updatedTodo,
     );
 
-    BlocProvider.of<TodosCubit>(context).updateTodos(updatedTodos);
-    BlocProvider.of<TodosCubit>(context).selectTodo(updatedTodo);
+    final TodosCubit cubit = BlocProvider.of<TodosCubit>(context);
+
+    cubit.updateTodos(updatedTodos);
+    cubit.selectTodo(updatedTodo);
+
+    if (cubit.state.selectedTodo!.subTodos
+            .where((element) => element.isDone)
+            .length ==
+        cubit.state.selectedTodo!.subTodos.length) {
+      _showDialog(context);
+    }
   }
 
   TodoModel updateTodo({
@@ -59,6 +68,24 @@ class TodoScreen extends StatelessWidget {
       ..insert(indexOfTodo, updatedTodo);
 
     return updatedTodos;
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Todo is completed.'),
+        content: Text('Do you want to archive?'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text('No')),
+          TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text('Yes')),
+        ],
+      ),
+    );
   }
 
   @override

@@ -46,8 +46,7 @@ class TodoCard extends StatelessWidget {
           return showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('title'),
-              content: Text('content'),
+              title: Text('Do you really want to delete?'),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
