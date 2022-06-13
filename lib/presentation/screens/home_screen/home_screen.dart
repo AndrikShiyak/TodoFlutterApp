@@ -16,15 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final List<String> titlesList;
-
-  @override
-  void initState() {
-    titlesList = List.generate(7, (index) => 'Card ${index + 1}');
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final todosList =
@@ -34,12 +25,57 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Home Screen',
       body: ListView.separated(
         padding: EdgeInsets.all(20.w),
-        itemBuilder: (context, index) => TodoCard(
-          title: todosList[index].title,
-          onTap: () {
-            context.read<TodosCubit>().selectTodo(todosList[index]);
-            Navigator.of(context).pushNamed(AppRouter.todo);
+        itemBuilder: (context, index) => Dismissible(
+          direction: DismissDirection.endToStart,
+          background: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(5.w),
+            ),
+            alignment: Alignment.centerRight,
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          ),
+          onDismissed: (direction) {
+            // TODO implement delete
+
+            if (direction.name == 'endToStart') {
+              print('delete');
+            } else {
+              print('else');
+            }
           },
+          confirmDismiss: (direction) async {
+            if (direction.name == 'endToStart') {
+              return showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('title'),
+                  content: Text('content'),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text('No')),
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: Text('Yes')),
+                  ],
+                ),
+              );
+            }
+          },
+          key: UniqueKey(),
+          child: TodoCard(
+            // TODO remove ?? null
+            title: todosList[index].title ?? 'null',
+            onTap: () {
+              context.read<TodosCubit>().selectTodo(todosList[index]);
+              Navigator.of(context).pushNamed(AppRouter.todo);
+            },
+          ),
         ),
         separatorBuilder: (context, index) => SizedBox(height: 20.h),
         itemCount: todosList.length,
