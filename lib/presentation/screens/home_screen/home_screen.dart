@@ -28,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             itemBuilder: (context, index) => TodoCard(
-              // TODO remove ?? null
-              title: todosList[index].title ?? 'null',
+              todo: todosList[index],
               onTap: () {
                 context.read<TodosCubit>().selectTodo(todosList[index]);
                 Navigator.of(context).pushNamed(AppRouter.todo);

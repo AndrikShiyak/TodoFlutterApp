@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_app/data/models/todo_model.dart';
 
 class TodoCard extends StatelessWidget {
   TodoCard({
-    required this.title,
     required this.onTap,
     required this.onDismissed,
+    required this.todo,
   });
 
-  final String title;
   final VoidCallback onTap;
   final VoidCallback onDismissed;
+  final TodoModel todo;
+
+  late final double percentageOfDoneSubtodos =
+      todo.subTodos.where((element) => element.isDone).isNotEmpty
+          ? (todo.subTodos.where((element) => element.isDone).length /
+              todo.subTodos.length)
+          : 0;
 
   @override
   Widget build(BuildContext context) {
+    final double greenContainerWidth =
+        (MediaQuery.of(context).size.width - 40.w) * percentageOfDoneSubtodos;
+
+    final double greenContainerColorOpacity =
+        0.2 + 0.8 * percentageOfDoneSubtodos;
+
     return GestureDetector(
       onTap: onTap,
       child: Dismissible(
@@ -75,17 +88,18 @@ class TodoCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    width: 140.w,
+                    width: greenContainerWidth,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.r),
-                      color: Colors.green.withOpacity(0.3),
+                      color:
+                          Colors.green.withOpacity(greenContainerColorOpacity),
                     ),
                   ),
                   const Spacer(),
                 ],
               ),
               Text(
-                title,
+                todo.title,
                 textAlign: TextAlign.center,
               ),
             ],
