@@ -2,27 +2,41 @@ import 'package:todo_app/data/models/sub_todo_model.dart';
 import 'package:todo_app/data/models/unique_entity.dart';
 
 class TodoModel extends UniqueEntity {
-  final String title;
-  final List<SubTodoModel> subTodos;
+  final String _title;
+  final List<SubTodoModel> _subTodos;
 
   TodoModel({
     required String id,
-    required this.title,
-    this.subTodos = const [],
-  }) : super(id);
+    required String title,
+    List<SubTodoModel> subTodos = const [],
+  })  : _title = title,
+        _subTodos = subTodos,
+        super(id);
 
   double get completePercentage {
-    return this.subTodos.isNotEmpty
-        ? this.subTodos.where((element) => element.isDone).length /
-            this.subTodos.length
+    return this._subTodos.isNotEmpty
+        ? this._subTodos.where((element) => element.isDone).length /
+            this._subTodos.length
         : 0;
+  }
+
+  String get title {
+    return _title;
+  }
+
+  List<SubTodoModel> get subTodos {
+    return [..._subTodos];
+  }
+
+  void addSubtodo(SubTodoModel subTodo) {
+    _subTodos.add(subTodo);
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': super.id,
-      'title': title,
-      'subTodos': subTodos.map((e) => e.toMap()).toList(),
+      'title': _title,
+      'subTodos': _subTodos.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -37,16 +51,18 @@ class TodoModel extends UniqueEntity {
   }
 
   @override
-  String toString() => 'TodoModel(title: $title, subTodos: $subTodos)';
+  String toString() =>
+      'TodoModel(id: $id, title: $_title, subTodos: $_subTodos)';
 
   TodoModel copyWith({
+    String? id,
     String? title,
     List<SubTodoModel>? subTodos,
   }) {
     return TodoModel(
-      id: super.id,
-      title: title ?? this.title,
-      subTodos: subTodos ?? this.subTodos,
+      id: id ?? this.id,
+      title: title ?? this._title,
+      subTodos: subTodos ?? this._subTodos,
     );
   }
 }

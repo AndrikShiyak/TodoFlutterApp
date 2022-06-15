@@ -2,12 +2,23 @@ part of 'todos_cubit.dart';
 
 class TodosState {
   TodosState({
-    required this.todosList,
-    this.selectedTodo,
-  });
+    required List<TodoModel> todosList,
+    TodoModel? selectedTodo,
+  })  : _todosList = todosList,
+        _selectedTodo = selectedTodo;
 
-  final List<TodoModel> todosList;
-  final TodoModel? selectedTodo;
+  final List<TodoModel> _todosList;
+  final TodoModel? _selectedTodo;
+
+  List<TodoModel> get todosList {
+    return [..._todosList];
+  }
+
+  TodoModel? get selectedTodo {
+    return _selectedTodo?.copyWith(
+      subTodos: _selectedTodo?.subTodos,
+    );
+  }
 
   TodosState copyWith({
     List<TodoModel>? todosList,
@@ -21,8 +32,8 @@ class TodosState {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'todosList': todosList.map((e) => e.toMap()).toList(),
-      'selectedTodo': selectedTodo?.toMap(),
+      'todosList': _todosList.map((e) => e.toMap()).toList(),
+      'selectedTodo': _selectedTodo?.toMap(),
     };
   }
 
@@ -38,7 +49,7 @@ class TodosState {
 
   @override
   String toString() =>
-      'TodosState(todosList: $todosList, selectedTodo: $selectedTodo)';
+      'TodosState todosList: $_todosList, selectedTodo: $_selectedTodo)';
 
   String toJson() => json.encode(toMap());
 

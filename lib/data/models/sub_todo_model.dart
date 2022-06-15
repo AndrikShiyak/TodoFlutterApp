@@ -27,16 +27,17 @@ class SubTodoModel extends UniqueEntity {
   }
 
   SubTodoModel copyWith({
+    String? id,
     String? title,
     bool? isDone,
   }) {
     return SubTodoModel(
-      id: super.id,
+      id: id ?? this.id,
       title: title ?? this.title,
       isDone: isDone ?? this.isDone,
     );
   }
 
   @override
-  String toString() => 'SubTodoModel(title: $title, isDone: $isDone)';
+  String toString() => 'SubTodoModel(id: $id, title: $title, isDone: $isDone)';
 }

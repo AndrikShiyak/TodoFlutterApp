@@ -25,6 +25,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => CreateTodoScreen(
             title: Strings.createTodoScreenTitle,
+            screenType: settings.arguments as TodoScreenType,
           ),
         );
       case todo:
