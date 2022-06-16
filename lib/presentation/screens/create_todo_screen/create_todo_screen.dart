@@ -58,7 +58,7 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
       int index = _newTodo.subTodos.indexWhere((element) => element.id == id);
       if (index < 0) return;
 
-      _newTodo.subTodos.removeAt(index);
+      _newTodo.removeSubtodo(index);
     });
   }
 
@@ -77,8 +77,9 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
     final SubTodoModel newSubTodo =
         _newTodo.subTodos[index].copyWith(title: value);
 
-    _newTodo.subTodos.removeAt(index);
-    _newTodo.subTodos.insert(index, newSubTodo);
+    _newTodo.removeSubtodo(index);
+
+    _newTodo.addSubtodo(newSubTodo, index);
   }
 
   void _saveTodo() {
@@ -155,6 +156,7 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                   },
                   delete: () => _delete(subTodo.value.id),
                 ),
+            SizedBox(height: 60.h),
           ],
         ),
       ),

@@ -28,8 +28,16 @@ class TodoModel extends UniqueEntity {
     return [..._subTodos];
   }
 
-  void addSubtodo(SubTodoModel subTodo) {
-    _subTodos.add(subTodo);
+  void addSubtodo(SubTodoModel subTodo, [int? index]) {
+    if (index != null) {
+      _subTodos.insert(index, subTodo);
+    } else {
+      _subTodos.add(subTodo);
+    }
+  }
+
+  void removeSubtodo(int index) {
+    _subTodos.removeAt(index);
   }
 
   Map<String, dynamic> toMap() {
