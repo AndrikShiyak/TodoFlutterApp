@@ -6,10 +6,12 @@ class TextFieldWithButtons extends StatefulWidget {
     Key? key,
     this.onChange,
     this.delete,
+    this.value,
   }) : super(key: key);
 
   final VoidCallback? delete;
   final void Function(String value)? onChange;
+  final String? value;
 
   @override
   State<TextFieldWithButtons> createState() => _TextFieldWithButtonsState();
@@ -20,6 +22,10 @@ class _TextFieldWithButtonsState extends State<TextFieldWithButtons> {
 
   @override
   void initState() {
+    if (widget.value != null) {
+      _controller.text = widget.value!;
+    }
+
     _controller.addListener(_controllerListener);
 
     super.initState();

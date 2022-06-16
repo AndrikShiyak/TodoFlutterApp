@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/models/sub_todo_model.dart';
 import 'package:todo_app/data/models/todo_model.dart';
 import 'package:todo_app/logic/cubit/todos_cubit.dart';
 import 'package:todo_app/presentation/screens/create_todo_screen/widgets/icon_button_w.dart';
@@ -8,40 +9,56 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+enum TodoScreenType {
+  create,
+  update,
+}
+
 class CreateTodoScreen extends StatefulWidget {
   const CreateTodoScreen({
     Key? key,
     required this.title,
+    required this.screenType,
   }) : super(key: key);
 
   final String title;
+  final TodoScreenType screenType;
 
   @override
   State<CreateTodoScreen> createState() => _CreateTodoScreenState();
 }
 
 class _CreateTodoScreenState extends State<CreateTodoScreen> {
-  final List<String> _subTodos = [];
-  final Map<String, dynamic> _newTodo = {'subTodos': []};
+  TodoModel _newTodo = TodoModel(id: '', title: '', subTodos: []);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.screenType == TodoScreenType.update) {
+        _newTodo = TodoModel(
+          id: context.read<TodosCubit>().state.selectedTodo!.id,
+          title: context.read<TodosCubit>().state.selectedTodo!.title,
+          subTodos: context.read<TodosCubit>().state.selectedTodo!.subTodos,
+        );
+
+        setState(() {});
+      }
+    });
+    super.initState();
+  }
 
   void _addSubTodoField() {
     setState(() {
-      _subTodos.add(_createUniqueKey());
+      _newTodo.addSubtodo(SubTodoModel(id: _createUniqueKey(), title: ''));
     });
   }
 
   void _delete(String id) {
     setState(() {
-      int index = _subTodos.indexOf(id);
-      _subTodos.removeAt(index);
-
-      final subTodosList = _newTodo['subTodos'] as List<dynamic>;
-
-      index =
-          subTodosList.indexWhere((subTodo) => (subTodo['id'] as String) == id);
+      int index = _newTodo.subTodos.indexWhere((element) => element.id == id);
       if (index < 0) return;
 
-      subTodosList.removeAt(index);
+      _newTodo.removeSubtodo(index);
     });
   }
 
@@ -53,25 +70,39 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
   }
 
   void _updateSubTodos({required String id, required String value}) {
-    final index = (_newTodo['subTodos'] as List<dynamic>)
-        .indexWhere((element) => (element['id'] as String) == id);
-    if (index < 0) {
-      (_newTodo['subTodos'] as List<dynamic>).add({
-        'id': id,
-        'title': value,
-      });
-    } else {
-      ((_newTodo['subTodos'] as List<dynamic>)[index]
-          as Map<String, String>)['title'] = value;
-    }
+    final index = _newTodo.subTodos.indexWhere((element) => element.id == id);
+
+    if (index < 0) return;
+
+    final SubTodoModel newSubTodo =
+        _newTodo.subTodos[index].copyWith(title: value);
+
+    _newTodo.removeSubtodo(index);
+
+    _newTodo.addSubtodo(newSubTodo, index);
   }
 
   void _saveTodo() {
-    if (_newTodo['title'] == null) return;
+    if (_newTodo.title.isEmpty) return;
 
-    _newTodo['id'] = _createUniqueKey();
+    if (_newTodo.id.isNotEmpty) {
+      final List<TodoModel> todos = context.read<TodosCubit>().state.todosList;
 
-    context.read<TodosCubit>().saveTodo(TodoModel.fromMap(_newTodo));
+      final int index =
+          todos.indexWhere((element) => element.id == _newTodo.id);
+
+      if (index >= 0) {
+        todos.removeAt(index);
+        todos.insert(index, _newTodo);
+      }
+
+      context.read<TodosCubit>().updateTodos(todos);
+      context.read<TodosCubit>().selectTodo(_newTodo);
+    } else {
+      _newTodo = _newTodo.copyWith(id: _createUniqueKey());
+      context.read<TodosCubit>().saveTodo(_newTodo);
+    }
+
     Navigator.of(context).pop();
   }
 
@@ -95,24 +126,37 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
               style: Theme.of(context).textTheme.headline5,
             ),
             TextFieldWithButtons(
-              onChange: (value) {
-                _newTodo.update('title', (oldValue) => value,
-                    ifAbsent: () => value);
-              },
+              key: Key(_newTodo.id),
+              value: widget.screenType == TodoScreenType.update
+                  ? _newTodo.title
+                  : null,
+              onChange: (value) => _newTodo = _newTodo.copyWith(title: value),
             ),
             SizedBox(height: 50.h),
             Text(
               'Sub Todo\'s',
               style: Theme.of(context).textTheme.headline5,
             ),
-            for (var subTodo in _subTodos.asMap().entries)
-              TextFieldWithButtons(
-                key: Key(subTodo.value),
-                onChange: (value) {
-                  _updateSubTodos(id: subTodo.value, value: value);
-                },
-                delete: () => _delete(subTodo.value),
-              ),
+            if (widget.screenType == TodoScreenType.update)
+              for (var subTodo in _newTodo.subTodos.asMap().entries)
+                TextFieldWithButtons(
+                  key: Key(subTodo.value.id),
+                  value: subTodo.value.title,
+                  onChange: (value) {
+                    _updateSubTodos(id: subTodo.value.id, value: value);
+                  },
+                  delete: () => _delete(subTodo.value.id),
+                )
+            else
+              for (var subTodo in _newTodo.subTodos.asMap().entries)
+                TextFieldWithButtons(
+                  key: Key(subTodo.value.id),
+                  onChange: (value) {
+                    _updateSubTodos(id: subTodo.value.id, value: value);
+                  },
+                  delete: () => _delete(subTodo.value.id),
+                ),
+            SizedBox(height: 60.h),
           ],
         ),
       ),
