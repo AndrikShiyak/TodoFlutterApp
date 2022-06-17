@@ -81,6 +81,7 @@ class TodoCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
+                    key: Key('greenContainer'),
                     width: greenContainerWidth,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.r),
@@ -94,6 +95,11 @@ class TodoCard extends StatelessWidget {
               Text(
                 todo.title,
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w500,
+                  shadows: [Shadow(offset: Offset(1.5.w, 1.5.w))],
+                ),
               ),
             ],
           ),
