@@ -5,24 +5,12 @@ import 'package:todo_app/data/models/sub_todo_model.dart';
 import 'package:todo_app/data/models/todo_model.dart';
 import 'package:todo_app/presentation/screens/home_screen/widgets/todo_card.dart';
 
+import '../../../../test_helper.dart';
+
 void main() {
   group(
     'Todo Card',
     () {
-      Widget parentWidget(Widget child) {
-        return ScreenUtilInit(
-          designSize: const Size(375, 667),
-          builder: (context, widget) => MaterialApp(
-            home: Scaffold(
-              body: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: child,
-              ),
-            ),
-          ),
-        );
-      }
-
       testWidgets(
           'Todo Card should have title, rounded borders, color white and shadows',
           (WidgetTester tester) async {
@@ -32,7 +20,7 @@ void main() {
           subTodos: [],
         );
         await tester.pumpWidget(
-          parentWidget(
+          TestsHelper.parentWidget(
             TodoCard(
               todo: testTodo,
               onTap: () {},
@@ -72,7 +60,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
@@ -108,7 +96,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
@@ -148,7 +136,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
@@ -182,7 +170,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
