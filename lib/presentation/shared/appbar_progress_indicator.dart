@@ -7,7 +7,10 @@ import '../../data/models/todo_model.dart';
 
 class AppBarProgressIndicator extends StatelessWidget
     implements PreferredSizeWidget {
-  AppBarProgressIndicator({Key? key, double? height}) : super(key: key) {
+  AppBarProgressIndicator({
+    Key? key,
+    double? height,
+  }) : super(key: key) {
     this.height = height ?? 20.h;
   }
 

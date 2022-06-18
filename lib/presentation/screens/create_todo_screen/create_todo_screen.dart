@@ -4,6 +4,7 @@ import 'package:todo_app/data/models/todo_model.dart';
 import 'package:todo_app/logic/cubit/todos_cubit.dart';
 import 'package:todo_app/presentation/screens/create_todo_screen/widgets/icon_button_w.dart';
 import 'package:todo_app/presentation/screens/create_todo_screen/widgets/textfield_with_buttons.dart';
+import 'package:todo_app/presentation/shared/main_app_bar.dart';
 import 'package:todo_app/presentation/shared/main_page_layout.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
@@ -109,15 +110,17 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
   @override
   Widget build(BuildContext context) {
     return MainPageLayout(
-      actions: [
-        IconButtonW(
-          icon: Icons.check,
-          color: Colors.white,
-          onTap: () => _saveTodo(),
-        ),
-      ],
+      appBar: MainAppBar(
+        title: widget.title,
+        actions: [
+          IconButtonW(
+            icon: Icons.check,
+            color: Colors.white,
+            onTap: () => _saveTodo(),
+          ),
+        ],
+      ),
       padding: EdgeInsets.all(20.w),
-      title: widget.title,
       body: SingleChildScrollView(
         child: Column(
           children: [
