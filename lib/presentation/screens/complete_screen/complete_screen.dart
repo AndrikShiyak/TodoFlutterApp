@@ -14,7 +14,7 @@ class CompleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainPageLayout(
-      appBar: MainAppBar(title: 'Complete'),
+      appBar: MainAppBar(title: 'Completed'),
       body: BlocBuilder<TodosCubit, TodosState>(
         builder: (context, state) {
           return ListView.separated(

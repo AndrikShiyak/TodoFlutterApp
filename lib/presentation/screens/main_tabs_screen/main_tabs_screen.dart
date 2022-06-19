@@ -39,10 +39,12 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
                 icon: Icon(
                   Icons.home,
                   size: 20.h,
+                  color: Colors.white,
                 ),
                 selectedIcon: Icon(
                   Icons.home,
                   size: 30.h,
+                  color: Colors.white,
                 ),
                 label: 'Home',
               ),
@@ -50,10 +52,12 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
                 icon: Icon(
                   Icons.done,
                   size: 20.h,
+                  color: Colors.white,
                 ),
                 selectedIcon: Icon(
                   Icons.done,
                   size: 30.h,
+                  color: Colors.white,
                 ),
                 label: 'Complete',
               ),

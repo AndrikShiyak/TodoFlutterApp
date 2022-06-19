@@ -68,7 +68,7 @@ class TodoCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 offset: Offset(1.r, 1.r),
-                color: Colors.grey.shade300,
+                color: Colors.green.shade100,
                 blurRadius: 4.r,
                 spreadRadius: 2.r,
               ),

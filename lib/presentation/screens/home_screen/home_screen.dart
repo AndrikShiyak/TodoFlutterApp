@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MainPageLayout(
-      appBar: MainAppBar(title: 'Home Screen'),
+      appBar: MainAppBar(title: 'Todos'),
       body: BlocBuilder<TodosCubit, TodosState>(
         builder: (context, state) {
           return TodosList(todosList: state.todosList);

@@ -49,7 +49,7 @@ void main() {
         // Check shadow offset
         expect(boxShadow?[0].offset, Offset(1.r, 1.r));
         // Check shadow color
-        expect(boxShadow?[0].color, Colors.grey.shade300);
+        expect(boxShadow?[0].color, Colors.green.shade100);
         // Check shadow blurRadius
         expect(boxShadow?[0].blurRadius, 4.r);
         // Check shadow spreadRadius
