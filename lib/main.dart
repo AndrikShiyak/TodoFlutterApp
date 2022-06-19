@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:mockito/annotations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo_app/logic/cubit/todos_cubit.dart';
 
@@ -10,6 +11,13 @@ import 'core/themes/app_theme.dart';
 import 'logic/debug/app_bloc_observer.dart';
 import 'presentation/router/app_router.dart';
 
+@GenerateMocks(
+  [],
+  customMocks: [
+    MockSpec<NavigatorObserver>(
+        as: #MockNavigatorObserver, returnNullOnMissingStub: true),
+  ],
+)
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
