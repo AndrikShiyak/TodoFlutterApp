@@ -9,6 +9,12 @@ import 'package:todo_app/presentation/shared/main_page_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+class TodoArguments {
+  final bool disableSubToDo;
+
+  TodoArguments({this.disableSubToDo = false});
+}
+
 class TodoScreen extends StatelessWidget {
   const TodoScreen({Key? key}) : super(key: key);
 
@@ -36,7 +42,12 @@ class TodoScreen extends StatelessWidget {
             .where((element) => element.isDone)
             .length ==
         cubit.state.selectedTodo!.subTodos.length) {
-      _showDialog(context);
+      _showDialog(
+        context: context,
+        addToComplete: () {
+          cubit.addCompleteTodo(updatedTodo);
+        },
+      );
     }
   }
 
@@ -72,7 +83,10 @@ class TodoScreen extends StatelessWidget {
     return updatedTodos;
   }
 
-  void _showDialog(BuildContext context) {
+  void _showDialog({
+    required BuildContext context,
+    required VoidCallback addToComplete,
+  }) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -83,7 +97,11 @@ class TodoScreen extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(false),
               child: Text('No')),
           TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
+              onPressed: () {
+                Navigator.popUntil(
+                    context, ModalRoute.withName(AppRouter.mainTabScreen));
+                addToComplete();
+              },
               child: Text('Yes')),
         ],
       ),
@@ -92,18 +110,20 @@ class TodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as TodoArguments?;
     return BlocBuilder<TodosCubit, TodosState>(
       builder: (context, state) {
         return MainPageLayout(
           title: state.selectedTodo?.title ?? 'NA',
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRouter.createTodo,
-                    arguments: TodoScreenType.update);
-              },
-              icon: Icon(Icons.edit),
-            )
+            if (args == null)
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(AppRouter.createTodo,
+                      arguments: TodoScreenType.update);
+                },
+                icon: Icon(Icons.edit),
+              )
           ],
           appBarsBottom: AppBarProgressIndicator(),
           body: ListView.builder(
@@ -111,12 +131,14 @@ class TodoScreen extends StatelessWidget {
             itemBuilder: (context, index) => CheckboxWithTitle(
               title: state.selectedTodo?.subTodos[index].title ?? 'NA',
               value: state.selectedTodo?.subTodos[index].isDone ?? false,
-              onTap: () => toggleSubTodo(
-                context,
-                selectedTodo: state.selectedTodo,
-                todosList: state.todosList,
-                index: index,
-              ),
+              onTap: args != null && args.disableSubToDo
+                  ? () {}
+                  : () => toggleSubTodo(
+                        context,
+                        selectedTodo: state.selectedTodo,
+                        todosList: state.todosList,
+                        index: index,
+                      ),
             ),
             itemCount: state.selectedTodo?.subTodos.length,
           ),
