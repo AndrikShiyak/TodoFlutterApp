@@ -22,7 +22,7 @@ final TodoModel _testTodo = TodoModel(
 );
 
 class TodosCubit extends Cubit<TodosState> with HydratedMixin {
-  TodosCubit() : super(TodosState(todosList: [])) {
+  TodosCubit() : super(TodosState(todosList: [], completeTodoList: [])) {
     // hydrate();
   }
 
@@ -30,6 +30,7 @@ class TodosCubit extends Cubit<TodosState> with HydratedMixin {
       : super(
           TodosState(
             todosList: [_testTodo],
+            completeTodoList: [_testTodo],
             selectedTodo: _testTodo,
           ),
         );
@@ -37,10 +38,17 @@ class TodosCubit extends Cubit<TodosState> with HydratedMixin {
   void saveTodo(TodoModel newTodo) =>
       emit(state.copyWith(todosList: [...state.todosList]..add(newTodo)));
 
+  void addCompleteTodo(TodoModel todo) {
+    emit(state.copyWith(
+        completeTodoList: [...state.completeTodoList]..add(todo)));
+    deleteTodo(todo.id);
+  }
+
   void selectTodo(TodoModel todo) => emit(state.copyWith(selectedTodo: todo));
 
-  void updateTodos(List<TodoModel> todosList) =>
-      emit(state.copyWith(todosList: todosList));
+  void updateTodos(List<TodoModel> todosList) {
+    emit(state.copyWith(todosList: todosList));
+  }
 
   void deleteTodo(String id) {
     final List<TodoModel> todosList = state.todosList;
