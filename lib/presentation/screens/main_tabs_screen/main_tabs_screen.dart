@@ -32,7 +32,7 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
               setState(() {});
             },
             height: 60.h,
-            backgroundColor: Colors.red,
+            backgroundColor: Theme.of(context).primaryColor,
             labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
             destinations: [
               NavigationDestination(

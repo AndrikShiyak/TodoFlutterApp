@@ -8,6 +8,7 @@
             "name": "ToDo App",
             "request": "launch",
             "type": "dart",
+            "program": "lib/main.dart"
         },
         {
             "name": "All Tests",
