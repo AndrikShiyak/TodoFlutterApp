@@ -86,6 +86,12 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
   void _saveTodo() {
     if (_newTodo.title.isEmpty) return;
 
+    for (var i = 0; i < _newTodo.subTodos.length; i++) {
+      if (_newTodo.subTodos[i].title.isNotEmpty) continue;
+
+      _newTodo.removeSubtodo(i);
+    }
+
     if (_newTodo.id.isNotEmpty) {
       final List<TodoModel> todos = context.read<TodosCubit>().state.todosList;
 

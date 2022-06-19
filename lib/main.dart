@@ -24,6 +24,8 @@ void main() async {
   final HydratedStorage storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
   // storage.clear();
+  // print('cleared');
+  // return;
 
   // return;
 

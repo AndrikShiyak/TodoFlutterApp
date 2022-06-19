@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_app/core/constants/strings.dart';
-import 'package:todo_app/presentation/complete_screen/complete_screen.dart';
+import 'package:todo_app/presentation/screens/complete_screen/complete_screen.dart';
 import 'package:todo_app/presentation/screens/home_screen/home_screen.dart';
 
 class MainTabsScreen extends StatefulWidget {
