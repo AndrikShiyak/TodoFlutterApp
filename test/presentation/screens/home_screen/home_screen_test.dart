@@ -47,7 +47,7 @@ void main() async {
     );
 
     testWidgets(
-      "Whe floating action button is pressed, CreateTodo screen should be pushed",
+      "When floating action button is pressed, CreateTodo screen should be pushed",
       (WidgetTester tester) async {
         await tester.pumpWidget(
           TestsHelper.parentWidget(
