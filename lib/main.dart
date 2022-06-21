@@ -47,6 +47,7 @@ class App extends StatelessWidget {
         create: (context) => TodosCubit(),
         child: MaterialApp(
           title: Strings.appTitle,
+          // TODO change theme or colors in theme depending on current time?
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           debugShowCheckedModeBanner: false,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_app/core/constants/strings.dart';
 import 'package:todo_app/presentation/screens/complete_screen/complete_screen.dart';
-import 'package:todo_app/presentation/screens/home_screen/home_screen.dart';
+import 'package:todo_app/presentation/screens/todos_screen/todos_screen.dart';
 
 class MainTabsScreen extends StatefulWidget {
   const MainTabsScreen({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class MainTabsScreen extends StatefulWidget {
 
 class _MainTabsScreenState extends State<MainTabsScreen> {
   List<Widget> _screens = [
-    HomeScreen(title: Strings.homeScreenTitle),
+    TodosScreen(title: Strings.homeScreenTitle),
     CompleteScreen(),
   ];
 

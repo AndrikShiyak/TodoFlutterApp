@@ -43,7 +43,7 @@ class TodosState {
     return <String, dynamic>{
       'todosList': _todosList.map((e) => e.toMap()).toList(),
       'completeTodoList': _completeTodoList.map((e) => e.toMap()).toList(),
-      'selectedTodo': _selectedTodo?.toMap(),
+      // 'selectedTodo': _selectedTodo?.toMap(),
     };
   }
 

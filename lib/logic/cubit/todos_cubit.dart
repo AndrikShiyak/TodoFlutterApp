@@ -29,7 +29,23 @@ class TodosCubit extends Cubit<TodosState> with HydratedMixin {
   TodosCubit.test()
       : super(
           TodosState(
-            todosList: [_testTodo],
+            todosList: List.generate(
+                10,
+                (index) => TodoModel(
+                      id: '$index',
+                      title: 'test ${index + 1}',
+                      subTodos: [
+                        SubTodoModel(
+                          id: '11',
+                          title: 'test subtodo1',
+                          isDone: true,
+                        ),
+                        SubTodoModel(
+                          id: '11',
+                          title: 'test subtodo1',
+                        ),
+                      ],
+                    )),
             completeTodoList: [_testTodo],
             selectedTodo: _testTodo,
           ),

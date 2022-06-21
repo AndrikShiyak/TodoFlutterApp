@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_app/data/models/todo_model.dart';
 import 'package:todo_app/logic/cubit/todos_cubit.dart';
 import 'package:todo_app/presentation/router/app_router.dart';
-import 'package:todo_app/presentation/screens/home_screen/widgets/todo_card.dart';
+import 'package:todo_app/presentation/screens/todos_screen/widgets/todo_card.dart';
 
 class TodosList extends StatelessWidget {
   const TodosList({
