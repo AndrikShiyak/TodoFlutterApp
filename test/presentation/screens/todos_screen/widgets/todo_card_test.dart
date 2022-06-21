@@ -3,28 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_app/data/models/sub_todo_model.dart';
 import 'package:todo_app/data/models/todo_model.dart';
-import 'package:todo_app/presentation/screens/home_screen/widgets/todo_card.dart';
+import 'package:todo_app/presentation/screens/todos_screen/widgets/todo_card.dart';
+
+import '../../../../helpers/test_helper.dart';
 
 void main() {
   group(
     'Todo Card',
     () {
-      Widget parentWidget(Widget child) {
-        return ScreenUtilInit(
-          designSize: const Size(375, 667),
-          builder: (context, widget) => MaterialApp(
-            home: Scaffold(
-              body: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: child,
-              ),
-            ),
-          ),
-        );
-      }
-
       testWidgets(
-          'Todo Card should have title, rounded borders, color white and shadows',
+          'Todo Card must have title, rounded borders, color white and shadows',
           (WidgetTester tester) async {
         final TodoModel testTodo = TodoModel(
           id: '123',
@@ -32,7 +20,7 @@ void main() {
           subTodos: [],
         );
         await tester.pumpWidget(
-          parentWidget(
+          TestsHelper.parentWidget(
             TodoCard(
               todo: testTodo,
               onTap: () {},
@@ -42,6 +30,7 @@ void main() {
         );
 
         final title = find.text(testTodo.title);
+
         final boxDecoration = (tester
             .firstWidget<Container>(find.byType(Container))
             .decoration as BoxDecoration);
@@ -49,18 +38,26 @@ void main() {
         final borderRadius = boxDecoration.borderRadius;
         final boxShadow = boxDecoration.boxShadow;
 
+        // Check if there is a title
         expect(title, findsOneWidget);
+        // Check background color of the card
         expect(color, Colors.white);
+        // Check border radius of the card
         expect(borderRadius, BorderRadius.circular(5.r));
+        // Check shadows count of the card
         expect(boxShadow?.length, 1);
+        // Check shadow offset
         expect(boxShadow?[0].offset, Offset(1.r, 1.r));
-        expect(boxShadow?[0].color, Colors.grey.shade300);
+        // Check shadow color
+        expect(boxShadow?[0].color, Colors.green.shade100);
+        // Check shadow blurRadius
         expect(boxShadow?[0].blurRadius, 4.r);
+        // Check shadow spreadRadius
         expect(boxShadow?[0].spreadRadius, 2.r);
       });
 
       testWidgets(
-        'Test title',
+        'Title must have fontSize 20.sp, fontweight medium, and shadow',
         (WidgetTester tester) async {
           final TodoModel testTodo = TodoModel(
             id: '123',
@@ -72,7 +69,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
@@ -82,14 +79,21 @@ void main() {
           );
 
           final text = find.byType(Text);
+
           final shadows = tester.firstWidget<Text>(text).style?.shadows;
 
+          // Check fontSize of the title
           expect(tester.firstWidget<Text>(text).style?.fontSize, 20.sp);
+          // Check fontWeight of the title
           expect(tester.firstWidget<Text>(text).style?.fontWeight,
               FontWeight.w500);
+          // Check shadows count
           expect(shadows?.length, 1);
+          // Check shadow color
           expect(shadows?[0].color, Colors.black);
+          // Check shadow blurRadius
           expect(shadows?[0].blurRadius, 0.0);
+          // Check shadow offset
           expect(shadows?[0].offset, Offset(1.5.w, 1.5.w));
         },
       );
@@ -108,7 +112,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
@@ -117,21 +121,24 @@ void main() {
             ),
           );
 
-          // final card = find.byType(TodoCard);
-          final greenContainer = find.byKey(Key('greenContainer'));
           final cardSize = tester.getSize(find.byType(TodoCard));
+
+          final greenContainer = find.byKey(Key('greenContainer'));
           final progressContainerSize = tester.getSize(greenContainer);
           final borderRadius = (tester
                   .firstWidget<Container>(greenContainer)
                   .decoration as BoxDecoration)
               .borderRadius;
 
+          // Check progress container width
           expect(progressContainerSize.width, cardSize.width / 3);
+          // Check progress container color
           expect(
               (tester.firstWidget<Container>(greenContainer).decoration
                       as BoxDecoration)
                   .color,
               Colors.green.withOpacity(0.2 + 0.8 / 3));
+          // Check progress container border radius
           expect(borderRadius, BorderRadius.circular(5.r));
         });
 
@@ -148,7 +155,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
@@ -157,11 +164,14 @@ void main() {
             ),
           );
 
-          final greenContainer = find.byKey(Key('greenContainer'));
           final cardSize = tester.getSize(find.byType(TodoCard));
+
+          final greenContainer = find.byKey(Key('greenContainer'));
           final progressContainerSize = tester.getSize(greenContainer);
 
+          // Check progress container width
           expect(progressContainerSize.width, (cardSize.width / 3) * 2);
+          // Check progress container color
           expect(
               (tester.firstWidget<Container>(greenContainer).decoration
                       as BoxDecoration)
@@ -182,7 +192,7 @@ void main() {
             ],
           );
           await tester.pumpWidget(
-            parentWidget(
+            TestsHelper.parentWidget(
               TodoCard(
                 todo: testTodo,
                 onTap: () {},
@@ -191,11 +201,14 @@ void main() {
             ),
           );
 
-          final greenContainer = find.byKey(Key('greenContainer'));
           final cardSize = tester.getSize(find.byType(TodoCard));
+
+          final greenContainer = find.byKey(Key('greenContainer'));
           final progressContainerSize = tester.getSize(greenContainer);
 
+          // Check progress container width
           expect(progressContainerSize.width, cardSize.width);
+          // Check progress container color
           expect(
               (tester.firstWidget<Container>(greenContainer).decoration
                       as BoxDecoration)

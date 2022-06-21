@@ -5,11 +5,9 @@ import 'package:todo_app/presentation/screens/todo_screen/todo_screen.dart';
 
 import '../../core/constants/strings.dart';
 import '../../core/exceptions/route_exception.dart';
-import '../screens/home_screen/home_screen.dart';
 
 class AppRouter {
   static const String mainTabScreen = '/';
-  static const String home = '/home';
   static const String createTodo = '/create_todo';
   static const String todo = '/todo';
 
@@ -17,13 +15,6 @@ class AppRouter {
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case home:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => HomeScreen(
-            title: Strings.homeScreenTitle,
-          ),
-        );
       case createTodo:
         return MaterialPageRoute(
           settings: settings,

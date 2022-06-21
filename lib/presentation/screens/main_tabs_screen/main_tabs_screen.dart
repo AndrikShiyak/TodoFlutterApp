@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_app/core/constants/strings.dart';
-import 'package:todo_app/presentation/complete_screen/complete_screen.dart';
-import 'package:todo_app/presentation/screens/home_screen/home_screen.dart';
+import 'package:todo_app/presentation/screens/complete_screen/complete_screen.dart';
+import 'package:todo_app/presentation/screens/todos_screen/todos_screen.dart';
 
 class MainTabsScreen extends StatefulWidget {
   const MainTabsScreen({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class MainTabsScreen extends StatefulWidget {
 
 class _MainTabsScreenState extends State<MainTabsScreen> {
   List<Widget> _screens = [
-    HomeScreen(title: Strings.homeScreenTitle),
+    TodosScreen(title: Strings.homeScreenTitle),
     CompleteScreen(),
   ];
 
@@ -32,17 +32,19 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
               setState(() {});
             },
             height: 60.h,
-            backgroundColor: Colors.red,
+            backgroundColor: Theme.of(context).primaryColor,
             labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
             destinations: [
               NavigationDestination(
                 icon: Icon(
                   Icons.home,
                   size: 20.h,
+                  color: Colors.white,
                 ),
                 selectedIcon: Icon(
                   Icons.home,
                   size: 30.h,
+                  color: Colors.white,
                 ),
                 label: 'Home',
               ),
@@ -50,10 +52,12 @@ class _MainTabsScreenState extends State<MainTabsScreen> {
                 icon: Icon(
                   Icons.done,
                   size: 20.h,
+                  color: Colors.white,
                 ),
                 selectedIcon: Icon(
                   Icons.done,
                   size: 30.h,
+                  color: Colors.white,
                 ),
                 label: 'Complete',
               ),

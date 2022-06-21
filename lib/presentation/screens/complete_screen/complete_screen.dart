@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_app/logic/cubit/todos_cubit.dart';
 import 'package:todo_app/presentation/router/app_router.dart';
-import 'package:todo_app/presentation/screens/home_screen/widgets/todo_card.dart';
 import 'package:todo_app/presentation/screens/todo_screen/todo_screen.dart';
+import 'package:todo_app/presentation/screens/todos_screen/widgets/todo_card.dart';
+import 'package:todo_app/presentation/shared/main_app_bar.dart';
 import 'package:todo_app/presentation/shared/main_page_layout.dart';
 
 class CompleteScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class CompleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainPageLayout(
-      title: 'Complete',
+      appBar: MainAppBar(title: 'Completed'),
       body: BlocBuilder<TodosCubit, TodosState>(
         builder: (context, state) {
           return ListView.separated(

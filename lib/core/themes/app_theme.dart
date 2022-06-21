@@ -4,7 +4,7 @@ class AppTheme {
   const AppTheme._();
   static final lightTheme = ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    primarySwatch: Colors.blue,
+    primarySwatch: Colors.green,
   );
 
   static final darkTheme = ThemeData(

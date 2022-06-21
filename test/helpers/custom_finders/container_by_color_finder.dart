@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// TODO this class isn't used yet
 class ContainerByColorFinder extends MatchFinder {
   ContainerByColorFinder(this.color, {bool skipOffstage = true})
       : super(skipOffstage: skipOffstage);

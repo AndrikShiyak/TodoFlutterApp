@@ -5,6 +5,7 @@ import 'package:todo_app/presentation/router/app_router.dart';
 import 'package:todo_app/presentation/screens/create_todo_screen/create_todo_screen.dart';
 import 'package:todo_app/presentation/screens/todo_screen/widgets/checkbox_with_title.dart';
 import 'package:todo_app/presentation/shared/appbar_progress_indicator.dart';
+import 'package:todo_app/presentation/shared/main_app_bar.dart';
 import 'package:todo_app/presentation/shared/main_page_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -114,18 +115,20 @@ class TodoScreen extends StatelessWidget {
     return BlocBuilder<TodosCubit, TodosState>(
       builder: (context, state) {
         return MainPageLayout(
-          title: state.selectedTodo?.title ?? 'NA',
-          actions: [
-            if (args == null)
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(AppRouter.createTodo,
-                      arguments: TodoScreenType.update);
-                },
-                icon: Icon(Icons.edit),
-              )
-          ],
-          appBarsBottom: AppBarProgressIndicator(),
+          appBar: MainAppBar(
+            title: state.selectedTodo?.title ?? 'NA',
+            actions: [
+              if (args == null)
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(AppRouter.createTodo,
+                        arguments: TodoScreenType.update);
+                  },
+                  icon: Icon(Icons.edit),
+                ),
+            ],
+            bottom: AppBarProgressIndicator(),
+          ),
           body: ListView.builder(
             padding: EdgeInsets.all(20.w),
             itemBuilder: (context, index) => CheckboxWithTitle(
