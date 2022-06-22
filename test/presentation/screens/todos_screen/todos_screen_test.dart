@@ -39,7 +39,7 @@ void main() async {
 
         final titleFinder = find.text('Todos');
 
-        final todosListFinder = find.byType(TodosList);
+        final todosListFinder = find.byType(ReordableList);
 
         final fabFinder = find.byType(FloatingActionButton);
 
@@ -89,39 +89,39 @@ void main() async {
         expect(find.text('test 6'), findsNothing);
         expect(find.byType(TodoCard), findsNWidgets(5));
 
-        await tester.drag(find.byType(TodosList), Offset(0, -50.h));
+        await tester.drag(find.byType(ReordableList), Offset(0, -50.h));
         await tester.pump();
 
         expect(find.text('test 1'), findsOneWidget);
         expect(find.text('test 6'), findsOneWidget);
         expect(find.byType(TodoCard), findsNWidgets(6));
 
-        await tester.drag(find.byType(TodosList), Offset(0, -50.h));
+        await tester.drag(find.byType(ReordableList), Offset(0, -50.h));
         await tester.pump();
 
         expect(find.text('test 1'), findsOneWidget);
         expect(find.text('test 6'), findsOneWidget);
         expect(find.byType(TodoCard), findsNWidgets(6));
 
-        await tester.drag(find.byType(TodosList), Offset(0, -50.h));
+        await tester.drag(find.byType(ReordableList), Offset(0, -50.h));
         await tester.pump();
 
         expect(find.text('test 1'), findsOneWidget);
         expect(find.text('test 6'), findsOneWidget);
 
-        await tester.drag(find.byType(TodosList), Offset(0, -50.h));
+        await tester.drag(find.byType(ReordableList), Offset(0, -50.h));
         await tester.pump();
 
         expect(find.text('test 1'), findsOneWidget);
         expect(find.text('test 6'), findsOneWidget);
 
-        await tester.drag(find.byType(TodosList), Offset(0, -50.h));
+        await tester.drag(find.byType(ReordableList), Offset(0, -50.h));
         await tester.pump();
 
         expect(find.text('test 7'), findsOneWidget);
         expect(find.text('test 6'), findsOneWidget);
 
-        await tester.drag(find.byType(TodosList), Offset(0, 250.h));
+        await tester.drag(find.byType(ReordableList), Offset(0, 250.h));
         await tester.pump();
 
         expect(find.text('test 1'), findsOneWidget);

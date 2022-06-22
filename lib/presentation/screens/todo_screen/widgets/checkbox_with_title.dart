@@ -15,12 +15,18 @@ class CheckboxWithTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(value: value, onChanged: (_) => onTap()),
-        SizedBox(width: 20.w),
-        Text(title),
-      ],
+    return Container(
+      color: Colors.green.shade100,
+      margin: EdgeInsets.only(bottom: 5.h),
+      child: Row(
+        children: [
+          Checkbox(value: value, onChanged: (_) => onTap()),
+          SizedBox(width: 20.w),
+          const Spacer(),
+          Text(title),
+          SizedBox(width: 20.w),
+        ],
+      ),
     );
   }
 }
