@@ -4,14 +4,17 @@ import 'package:todo_app/data/models/todo_model.dart';
 
 class TodoCard extends StatelessWidget {
   TodoCard({
+    Key? key,
     required this.onTap,
     required this.onDismissed,
     required this.todo,
-  });
+    this.padding,
+  }) : super(key: key);
 
   final VoidCallback onTap;
   final VoidCallback onDismissed;
   final TodoModel todo;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -21,87 +24,90 @@ class TodoCard extends StatelessWidget {
     final double greenContainerColorOpacity =
         0.2 + 0.8 * todo.completePercentage;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Dismissible(
-        direction: DismissDirection.endToStart,
-        background: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(5.w),
-          ),
-          alignment: Alignment.centerRight,
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-        ),
-        onDismissed: (direction) {
-          if (direction.name == 'endToStart') {
-            onDismissed();
-          }
-        },
-        confirmDismiss: (direction) {
-          return showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Do you really want to delete?'),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text('No')),
-                TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: Text('Yes')),
-              ],
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Dismissible(
+          direction: DismissDirection.endToStart,
+          background: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(5.w),
             ),
-          );
-        },
-        key: UniqueKey(),
-        child: Container(
-          height: 100.h,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5.r),
-            boxShadow: [
-              BoxShadow(
-                offset: Offset(1.r, 1.r),
-                color: Colors.green.shade100,
-                blurRadius: 4.r,
-                spreadRadius: 2.r,
-              ),
-            ],
+            alignment: Alignment.centerRight,
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
           ),
-          alignment: Alignment.center,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    key: Key('greenContainer'),
-                    width: greenContainerWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.r),
-                      color:
-                          Colors.green.withOpacity(greenContainerColorOpacity),
-                    ),
-                  ),
-                  const Spacer(),
+          onDismissed: (direction) {
+            if (direction.name == 'endToStart') {
+              onDismissed();
+            }
+          },
+          confirmDismiss: (direction) {
+            return showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('Do you really want to delete?'),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text('No')),
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text('Yes')),
                 ],
               ),
-              Text(
-                todo.title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w500,
-                  shadows: [Shadow(offset: Offset(1.5.w, 1.5.w))],
+            );
+          },
+          key: UniqueKey(),
+          child: Container(
+            height: 100.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5.r),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(1.r, 1.r),
+                  color: Colors.green.shade100,
+                  blurRadius: 4.r,
+                  spreadRadius: 2.r,
                 ),
-              ),
-            ],
+              ],
+            ),
+            alignment: Alignment.center,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      key: Key('greenContainer'),
+                      width: greenContainerWidth,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.r),
+                        color: Colors.green
+                            .withOpacity(greenContainerColorOpacity),
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+                Text(
+                  todo.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                    shadows: [Shadow(offset: Offset(1.5.w, 1.5.w))],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// TODO try to move fucntions into mixin, maybe this file become cleaner and more readable?
+
 enum TodoScreenType {
   create,
   update,
